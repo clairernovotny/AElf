@@ -152,7 +152,7 @@ namespace AElf.Contracts.Economic
             {
                 Symbol = Context.Variables.NativeSymbol,
                 Amount = input.Amount,
-                To = input.To,
+                To = AddressHelper.Base58StringToAddress(EconomicContractConstants.IssueNativeTokenAddress),
                 Memo = input.Memo
             });
             return new Empty();

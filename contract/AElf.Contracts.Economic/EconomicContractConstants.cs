@@ -5,6 +5,7 @@ namespace AElf.Contracts.Economic
     public static class EconomicContractConstants
     {
         public const long NativeTokenConnectorInitialVirtualBalance = 100_000_00000000;
+        public const string IssueNativeTokenAddress = "2ZYyxEH6j8zAyJjef6Spa99Jx2zf5GbFktyAQEBPWLCvuSAn8D";
 
         // Token Converter Contract related.
         public const string TokenConverterFeeRate = "0.005";
