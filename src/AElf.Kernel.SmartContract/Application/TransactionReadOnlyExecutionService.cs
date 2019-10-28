@@ -5,16 +5,21 @@ using AElf.Kernel.SmartContract.Sdk;
 using AElf.Types;
 using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace AElf.Kernel.SmartContract.Application
 {
     public class TransactionReadOnlyExecutionService : ITransactionReadOnlyExecutionService
     {
         private readonly ISmartContractExecutiveService _smartContractExecutiveService;
+        
+        public ILogger<TransactionReadOnlyExecutionService> Logger { get; set; }
 
         public TransactionReadOnlyExecutionService(ISmartContractExecutiveService smartContractExecutiveService)
         {
             _smartContractExecutiveService = smartContractExecutiveService;
+            Logger = NullLogger<TransactionReadOnlyExecutionService>.Instance;
         }
 
         public async Task<TransactionTrace> ExecuteAsync(IChainContext chainContext, Transaction transaction,
@@ -48,6 +53,10 @@ namespace AElf.Kernel.SmartContract.Application
                 await _smartContractExecutiveService.PutExecutiveAsync(transaction.To, executive);
             }
 
+            if (!trace.IsSuccessful())
+            {
+                Logger.LogWarning($"Executed Transaction Error: {trace.Error}, Transaction: {transaction}");
+            }
             return trace;
         }
 
